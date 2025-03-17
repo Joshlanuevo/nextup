@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Screen {
     @Serializable
-    object Home : Screen()
+    object SignIn : Screen()
     @Serializable
-    object Auth : Screen()
+    object SignUp : Screen()
 }

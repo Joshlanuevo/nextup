@@ -12,10 +12,23 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Auth,
+        startDestination = Screen.SignIn,
     ) {
-        composable<Screen.Auth> {
-            AuthenticationScreen(true)
+        composable<Screen.SignIn> {
+            AuthenticationScreen(
+                isSignInScreen = true,
+                onSignUpClick = {
+                    navController.navigate(Screen.SignUp)
+                },
+            )
+        }
+        composable<Screen.SignUp> {
+            AuthenticationScreen(
+                isSignInScreen = false,
+                onSignUpClick = {
+                    navController.navigate(Screen.SignIn)
+                },
+            )
         }
     }
 }
