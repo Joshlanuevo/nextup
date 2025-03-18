@@ -42,4 +42,9 @@ class AuthViewModel @Inject constructor(
             )
         }
     }
+
+    fun resetAuthState() {
+        _signUpState.value = SignUpState.Default
+        _signInState.value = SignInState.Default
+    }
 }

@@ -1,12 +1,15 @@
 package com.vancoding.nextup.ui.screens.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,12 +26,35 @@ fun AuthenticationScreen(
     onSignUpClick: () -> Unit,
     authViewModel: AuthViewModel,
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") }
-    var hidePassword by remember { mutableStateOf(true) }
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var username by rememberSaveable { mutableStateOf("") }
+    var hidePassword by rememberSaveable { mutableStateOf(true) }
     val signUpState by authViewModel.signUpState.collectAsState()
     val signInState by authViewModel.signInState.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(isSignInScreen) {
+        authViewModel.resetAuthState()
+    }
+
+    LaunchedEffect(signInState) {
+        if (isSignInScreen && signInState is SignInState.Success) {
+            Toast.makeText(context, "Sign In Successful", Toast.LENGTH_LONG).show()
+        }
+        if (isSignInScreen && signInState is SignInState.Failure) {
+            Toast.makeText(context, (signInState as SignInState.Failure).message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    LaunchedEffect(signUpState) {
+        if (!isSignInScreen && signUpState is SignUpState.Success) {
+            Toast.makeText(context, "Sign Up Successful", Toast.LENGTH_LONG).show()
+        }
+        if (!isSignInScreen && signUpState is SignUpState.Failure) {
+            Toast.makeText(context, (signUpState as SignUpState.Failure).message, Toast.LENGTH_LONG).show()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -110,12 +136,6 @@ fun AuthenticationScreen(
                 }
                 !isSignInScreen && signUpState is SignUpState.Loading -> {
                     CircularProgressIndicator()
-                }
-                isSignInScreen && signInState is SignInState.Failure -> {
-                    Text(text = (signInState as SignInState.Failure).message, color = Color.Red)
-                }
-                !isSignInScreen && signUpState is SignUpState.Failure -> {
-                    Text(text = (signUpState as SignUpState.Failure).message, color = Color.Red)
                 }
             }
 
