@@ -13,31 +13,16 @@ class AuthRepository @Inject constructor(
     suspend fun signUp(
         username: String,
         email: String,
-        password: String,
+        password: String
     ): Result<AuthResponse> {
-        return try {
-            Log.i("AuthRepository", "Attempting to sign up user: $username")
-            val response = authApi.signUp(SignUpRequest(username, email, password))
-            Log.i("AuthRepository", "Sign-up successful for user: $username")
-            Result.success(response)
-        } catch (e: Exception) {
-            Log.e("AuthRepository", "Sign-up failed: ${e.message}")
-            Result.failure(Exception("An error occurred: ${e.message}"))
+        return runCatching {
+            authApi.signUp(SignUpRequest(username, email, password)).takeIf {
+                !it.accessToken.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty() && it.user != null
+            } ?: throw Exception("Invalid response structure from server")
         }
     }
 
-    suspend fun signIn(
-        email: String,
-        password: String,
-    ): Result<AuthResponse> {
-        return try {
-            Log.i("AuthRepository", "Attempting to sign in with email: $email")
-            val response = authApi.signIn(SignInRequest(email, password))
-            Log.i("AuthRepository", "Sign-in successful for email: $email")
-            Result.success(response)
-        } catch (e: Exception) {
-            Log.e("AuthRepository", "Sign-in failed: ${e.message}")
-            Result.failure(Exception("An error occurred: ${e.message}"))
-        }
+    suspend fun signIn(email: String, password: String): Result<AuthResponse> {
+        return runCatching { authApi.signIn(SignInRequest(email, password)) }
     }
 }

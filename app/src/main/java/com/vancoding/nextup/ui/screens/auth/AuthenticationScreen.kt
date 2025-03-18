@@ -13,16 +13,22 @@ import androidx.compose.ui.unit.sp
 import com.vancoding.nextup.ui.screens.auth.components.EmailTextField
 import com.vancoding.nextup.ui.screens.auth.components.PasswordTextField
 import com.vancoding.nextup.ui.screens.auth.components.UsernameTextField
+import com.vancoding.nextup.utils.SignInState
+import com.vancoding.nextup.utils.SignUpState
+import com.vancoding.nextup.viewmodel.AuthViewModel
 
 @Composable
 fun AuthenticationScreen(
     isSignInScreen: Boolean,
     onSignUpClick: () -> Unit,
+    authViewModel: AuthViewModel,
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var hidePassword by remember { mutableStateOf(true) }
+    val signUpState by authViewModel.signUpState.collectAsState()
+    val signInState by authViewModel.signInState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -81,9 +87,9 @@ fun AuthenticationScreen(
             Button(
                 onClick = {
                     if (isSignInScreen) {
-                        // Handle Sign In logic
+                        authViewModel.signIn(email, password)
                     } else {
-                        // Handle Sign Up logic
+                        authViewModel.signUp(username, email, password)
                     }
                 },
                 modifier = Modifier
@@ -97,6 +103,22 @@ fun AuthenticationScreen(
             ) {
                 Text(text = if (isSignInScreen) "Sign In" else "Sign Up")
             }
+
+            when {
+                isSignInScreen && signInState is SignInState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                !isSignInScreen && signUpState is SignUpState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                isSignInScreen && signInState is SignInState.Failure -> {
+                    Text(text = (signInState as SignInState.Failure).message, color = Color.Red)
+                }
+                !isSignInScreen && signUpState is SignUpState.Failure -> {
+                    Text(text = (signUpState as SignUpState.Failure).message, color = Color.Red)
+                }
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
