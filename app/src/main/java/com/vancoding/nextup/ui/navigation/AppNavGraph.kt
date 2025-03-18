@@ -5,10 +5,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.vancoding.nextup.ui.screens.auth.AuthenticationScreen
+import com.vancoding.nextup.viewmodel.AuthViewModel
 
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
+    authViewModel: AuthViewModel,
 ) {
     NavHost(
         navController = navController,
@@ -20,6 +22,7 @@ fun AppNavGraph(
                 onSignUpClick = {
                     navController.navigate(Screen.SignUp)
                 },
+                authViewModel = authViewModel,
             )
         }
         composable<Screen.SignUp> {
@@ -28,6 +31,7 @@ fun AppNavGraph(
                 onSignUpClick = {
                     navController.navigate(Screen.SignIn)
                 },
+                authViewModel = authViewModel,
             )
         }
     }
