@@ -1,4 +1,4 @@
-package com.vancoding.nextup
+package com.vancoding.nextup.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.vancoding.nextup.ui.navigation.AppNavGraph
 import com.vancoding.nextup.ui.theme.NextUpTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navController : NavHostController
 
