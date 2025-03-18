@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
 
@@ -65,6 +66,11 @@ dependencies {
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-name:2.9.0")
+
+    // Room DB
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
