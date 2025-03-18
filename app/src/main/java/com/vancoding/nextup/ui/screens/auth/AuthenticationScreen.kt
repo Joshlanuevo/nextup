@@ -34,6 +34,10 @@ fun AuthenticationScreen(
     val signInState by authViewModel.signInState.collectAsState()
     val context = LocalContext.current
 
+    LaunchedEffect(isSignInScreen) {
+        authViewModel.resetAuthState()
+    }
+
     LaunchedEffect(signInState) {
         if (isSignInScreen && signInState is SignInState.Success) {
             Toast.makeText(context, "Sign In Successful", Toast.LENGTH_LONG).show()
