@@ -8,8 +8,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CustomTextField(
@@ -40,5 +43,6 @@ fun CustomTextField(
                     Icon(imageVector = trailingIcon, contentDescription = null)
                 }
         },
+        textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
     )
 }
