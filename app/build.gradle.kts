@@ -65,13 +65,14 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-name:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.name)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // Room DB
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     // Dagger-Hilt
     implementation(libs.hilt.android)
