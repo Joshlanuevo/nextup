@@ -25,7 +25,7 @@ fun PasswordTextField(
     val visualTransformation = if (hidePassword) PasswordVisualTransformation() else VisualTransformation.None
 
     CustomTextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         value = password,
         onValueChange = onPasswordChange,
         label = label,

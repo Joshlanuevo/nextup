@@ -62,6 +62,10 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-name:2.9.0")
+
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 }
