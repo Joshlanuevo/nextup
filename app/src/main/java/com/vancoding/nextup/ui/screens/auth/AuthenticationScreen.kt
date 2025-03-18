@@ -34,12 +34,18 @@ fun AuthenticationScreen(
     val context = LocalContext.current
 
     LaunchedEffect(signInState) {
+        if (isSignInScreen && signInState is SignInState.Success) {
+            Toast.makeText(context, "Sign In Successful", Toast.LENGTH_LONG).show()
+        }
         if (isSignInScreen && signInState is SignInState.Failure) {
             Toast.makeText(context, (signInState as SignInState.Failure).message, Toast.LENGTH_LONG).show()
         }
     }
 
     LaunchedEffect(signUpState) {
+        if (!isSignInScreen && signUpState is SignUpState.Success) {
+            Toast.makeText(context, "Sign Up Successful", Toast.LENGTH_LONG).show()
+        }
         if (!isSignInScreen && signUpState is SignUpState.Failure) {
             Toast.makeText(context, (signUpState as SignUpState.Failure).message, Toast.LENGTH_LONG).show()
         }

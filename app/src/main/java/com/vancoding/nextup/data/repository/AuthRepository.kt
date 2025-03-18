@@ -1,6 +1,5 @@
 package com.vancoding.nextup.data.repository
 
-import android.util.Log
 import com.vancoding.nextup.data.network.api.AuthApi
 import com.vancoding.nextup.data.network.model.AuthResponse
 import com.vancoding.nextup.data.network.model.SignInRequest
